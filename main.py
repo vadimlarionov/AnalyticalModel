@@ -107,6 +107,10 @@ class AnalyticalModelView(QDialog, Ui_AnalyticalModel):
         return msg
 
     def modeling(self):
+        Conf.k1 = Utils.get_float(self.k1LineEdit.text(), Conf.k1)
+        Conf.k2 = Utils.get_float(self.k2LineEdit.text(), Conf.k2)
+        Conf.delta = Utils.get_float(self.deltaLineEdit.text(), Conf.delta)
+
         self.create_output_table()
         params = self.output_params
         for variant in range(1, self.number_variants + 1):
