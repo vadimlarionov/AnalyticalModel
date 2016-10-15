@@ -2,7 +2,6 @@
 
 
 class Conf:
-
     param_header_width = 320
 
     min_variants = 1
@@ -14,4 +13,3 @@ class Conf:
     # k1 = 0.0995 / 0.09        # Это тот k1, при котором start_lambda совпадает с методичкой
     k1 = 0.99995
     k2 = 1000
-

@@ -23,7 +23,6 @@ def check_params(params):
 
 
 class InputParams(dict):
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -54,7 +53,8 @@ class InputParams(dict):
         self.t_process_on_disk = Param(8, 'Среднее время обработки запроса на диске', [10, 10, 20, 20, 20])
         self[self.t_process_on_disk.row] = self.t_process_on_disk
 
-        self.p_access_to_disk = Param(9, 'Вероятность обращения запроса к ЦП после обработки на диске', [0, 0, 0, 0, 0.5])
+        self.p_access_to_disk = Param(9, 'Вероятность обращения запроса к ЦП после обработки на диске',
+                                      [0, 0, 0, 0, 0.5])
         self[self.p_access_to_disk.row] = self.p_access_to_disk
 
         sorted(self)
@@ -62,7 +62,6 @@ class InputParams(dict):
 
 
 class OutputParams(dict):
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.__count_attributes = 0

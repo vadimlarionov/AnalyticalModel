@@ -13,7 +13,7 @@ class Ui_AnalyticalModel(object):
         AnalyticalModel.setObjectName("AnalyticalModel")
         AnalyticalModel.setWindowModality(QtCore.Qt.NonModal)
         AnalyticalModel.setEnabled(True)
-        AnalyticalModel.resize(1200, 820)
+        AnalyticalModel.resize(1200, 850)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("analytics.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         AnalyticalModel.setWindowIcon(icon)

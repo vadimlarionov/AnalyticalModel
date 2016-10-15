@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from math import pow, fabs
+
 from conf import Conf
 
 

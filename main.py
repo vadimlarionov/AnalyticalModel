@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 
 import sys
+
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Q_ENUMS, Q_FLAGS, QObject
-from ui_analyticalmodel import Ui_AnalyticalModel
-from parameters import InputParams, OutputParams
-from conf import Conf
+from PyQt5.QtWidgets import QDialog, QTableWidgetItem, QMessageBox, QApplication
+
 from analytical_model import AnalyticalModel
+from conf import Conf
+from parameters import InputParams, OutputParams
+from ui_analyticalmodel import Ui_AnalyticalModel
 from utils import Utils
 
 
 class AnalyticalModelView(QDialog, Ui_AnalyticalModel):
-
     def __init__(self):
         super(AnalyticalModelView, self).__init__()
         self.setupUi(self)
@@ -25,6 +25,7 @@ class AnalyticalModelView(QDialog, Ui_AnalyticalModel):
         self.addVariantButton.clicked.connect(self.add_variant)
         self.deleteVariantButton.clicked.connect(self.delete_variant)
         self.calculateButton.clicked.connect(self.modeling)
+        self.modeling()
 
     def init_input_table(self):
         self.inputTableWidget.setColumnCount(1)
@@ -54,7 +55,7 @@ class AnalyticalModelView(QDialog, Ui_AnalyticalModel):
         column = self.inputTableWidget.columnCount()
         if column > Conf.min_variants + 1:
             self.inputTableWidget.removeColumn(column - 1)
-            self.number_variants = column - 2   # 1 - это название параметра
+            self.number_variants = column - 2  # 1 - это название параметра
 
     def get_input_data(self, param, variant):
         try:
