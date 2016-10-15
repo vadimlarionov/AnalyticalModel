@@ -12,8 +12,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
-    <height>850</height>
+    <width>1000</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -61,6 +61,12 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>35</height>
+        </size>
+       </property>
        <property name="text">
         <string>Удалить вариант</string>
        </property>
@@ -68,6 +74,12 @@
      </item>
      <item row="2" column="7">
       <widget class="QPushButton" name="calculateButton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>35</height>
+        </size>
+       </property>
        <property name="autoFillBackground">
         <bool>false</bool>
        </property>
@@ -78,6 +90,12 @@
      </item>
      <item row="2" column="5">
       <widget class="QPushButton" name="addVariantButton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>35</height>
+        </size>
+       </property>
        <property name="text">
         <string>Добавить вариант</string>
        </property>
@@ -196,6 +214,16 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>k1LineEdit</tabstop>
+  <tabstop>k2LineEdit</tabstop>
+  <tabstop>deltaLineEdit</tabstop>
+  <tabstop>inputTableWidget</tabstop>
+  <tabstop>deleteVariantButton</tabstop>
+  <tabstop>addVariantButton</tabstop>
+  <tabstop>calculateButton</tabstop>
+  <tabstop>outputTableWidget</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

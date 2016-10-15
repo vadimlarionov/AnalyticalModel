@@ -14,7 +14,7 @@ from utils import Utils
 
 class AnalyticalModelView(QDialog, Ui_AnalyticalModel):
     def __init__(self):
-        super(AnalyticalModelView, self).__init__()
+        super().__init__()
         self.setupUi(self)
 
         self.number_variants = Conf.default_variants
@@ -25,6 +25,7 @@ class AnalyticalModelView(QDialog, Ui_AnalyticalModel):
         self.addVariantButton.clicked.connect(self.add_variant)
         self.deleteVariantButton.clicked.connect(self.delete_variant)
         self.calculateButton.clicked.connect(self.modeling)
+        self.calculateButton.setDefault(True)
         self.modeling()
 
     def init_input_table(self):
