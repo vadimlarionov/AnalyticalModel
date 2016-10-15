@@ -3,6 +3,8 @@
 
 class Conf:
 
+    param_header_width = 320
+
     min_variants = 1
     max_variants = 7
     default_variants = 5

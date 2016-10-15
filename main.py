@@ -3,6 +3,7 @@
 import sys
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import *
+from PyQt5.QtCore import Q_ENUMS, Q_FLAGS, QObject
 from ui_analyticalmodel import Ui_AnalyticalModel
 from parameters import InputParams, OutputParams
 from conf import Conf
@@ -36,8 +37,11 @@ class AnalyticalModelView(QDialog, Ui_AnalyticalModel):
             self.inputTableWidget.setItem(row, 0, QTableWidgetItem(param.text))
             column = 1
             for value in param.values:
+                item = QTableWidgetItem(str(value))
+                item.setFlags(QtCore.Qt.ItemIsEditable)
                 self.inputTableWidget.setItem(row, column, QTableWidgetItem(str(value)))
                 column += 1
+        self.inputTableWidget.setColumnWidth(0, Conf.param_header_width)
 
     def add_variant(self):
         column = self.inputTableWidget.columnCount()
@@ -55,11 +59,11 @@ class AnalyticalModelView(QDialog, Ui_AnalyticalModel):
     def get_input_data(self, param, variant):
         try:
             return float(self.inputTableWidget.item(param.row, variant).text())
-        except ValueError:
+        except ValueError as e:
+            print('Value error: ' + str(e))
             self.create_error_msg().show()
-            raise
-        except AttributeError:
-            pass
+        except AttributeError as e:
+            print('Attribute error: ' + str(e))
 
     def delete_output_table(self):
         self.outputTableWidget.clear()
@@ -76,6 +80,7 @@ class AnalyticalModelView(QDialog, Ui_AnalyticalModel):
         for row, param in self.output_params.items():
             self.outputTableWidget.insertRow(row)
             self.outputTableWidget.setItem(row, 0, QTableWidgetItem(param.text))
+        self.outputTableWidget.setColumnWidth(0, Conf.param_header_width)
 
     def create_model(self, variant):
         params = self.input_params
@@ -104,19 +109,22 @@ class AnalyticalModelView(QDialog, Ui_AnalyticalModel):
         self.create_output_table()
         params = self.output_params
         for variant in range(1, self.number_variants + 1):
-            model = self.create_model(variant)
-            num_iterations = model.modeling()
-            self.add_output_item(params.load_ws, variant, model.load_ws())
-            self.add_output_item(params.load_user, variant, model.load_user())
-            self.add_output_item(params.avg_ws, variant, model.load_ws() * model.num_ws)
-            self.add_output_item(params.load_channel, variant, model.load_channel())
-            self.add_output_item(params.load_processor, variant, model.load_processor())
-            self.add_output_item(params.load_disk, variant, model.load_disk())
-            self.add_output_item(params.t_cycle, variant, model.t_cycle())
-            self.add_output_item(params.t_reaction, variant, model.t_reaction())
-            self.add_output_item(params.start_lambda, variant, model.start_lambda)
-            self.add_output_item(params.end_lambda, variant, model.end_lambda)
-            self.add_output_item(params.num_iterations, variant, num_iterations)
+            try:
+                model = self.create_model(variant)
+                num_iterations = model.modeling()
+                self.add_output_item(params.load_ws, variant, model.load_ws())
+                self.add_output_item(params.load_user, variant, model.load_user())
+                self.add_output_item(params.avg_ws, variant, model.load_ws() * model.num_ws)
+                self.add_output_item(params.load_channel, variant, model.load_channel())
+                self.add_output_item(params.load_processor, variant, model.load_processor())
+                self.add_output_item(params.load_disk, variant, model.load_disk())
+                self.add_output_item(params.t_cycle, variant, model.t_cycle())
+                self.add_output_item(params.t_reaction, variant, model.t_reaction())
+                self.add_output_item(params.start_lambda, variant, model.start_lambda)
+                self.add_output_item(params.end_lambda, variant, model.end_lambda)
+                self.add_output_item(params.num_iterations, variant, num_iterations)
+            except TypeError as e:
+                print('Type error: ' + str(e))
 
     def add_output_item(self, output_param, variant, value):
         self.outputTableWidget.setItem(output_param.row, variant, QTableWidgetItem(Utils.to_str(value)))
