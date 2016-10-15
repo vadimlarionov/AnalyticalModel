@@ -8,7 +8,7 @@ class AnalyticalModel:
     def __init__(self, num_ws, t_processing_ws, t_formation_req, t_transfer_forward,
                  t_transfer_back, num_processors, t_process_on_processor, num_disks,
                  t_process_on_disk, p_access_to_disk):
-        self.__num_ws = num_ws
+        self.num_ws = num_ws
         self.__t_processing_ws = t_processing_ws
         self.__t_formation_req = t_formation_req
         self.__t_transfer_forward = t_transfer_forward
@@ -29,7 +29,8 @@ class AnalyticalModel:
     def __lambda_f1(self):
         min_value = min(1 / (2 * self.t_k), self.__num_processors / (self.beta * self.__t_process_on_processor),
                         1 / (self.beta * self.p_i * self.__t_process_on_disk))
-        return Conf.k1 * min_value * (self.__num_ws - 1) / self.__num_ws
+        result = Conf.k1 * min_value * (self.num_ws - 1) / self.num_ws
+        return result
 
     def t_stay_on_channel(self):
         return 2 * self.t_k / (1 - 2 * self.lambda_f1 * self.t_k)
@@ -39,6 +40,7 @@ class AnalyticalModel:
         return self.beta * self.__t_process_on_processor / (1 - pow(value, self.__num_processors))
 
     def t_stay_on_disk(self):
+        # todo мутная тема с p_i
         value = self.beta * self.p_i * self.lambda_f1 * self.__t_process_on_disk
         return self.beta * self.__t_process_on_disk / (1 - value)
 
@@ -46,8 +48,11 @@ class AnalyticalModel:
         return self.__t_processing_ws + self.__t_formation_req + \
                self.t_stay_on_channel() + self.t_stay_on_processor() + self.t_stay_on_disk()
 
+    def t_reaction(self):
+        return self.t_cycle() - self.__t_formation_req
+
     def lambda_f(self):
-        self.end_lambda = (self.__num_ws - 1) / self.t_cycle()
+        self.end_lambda = (self.num_ws - 1) / self.t_cycle()
         return self.end_lambda
 
     def load_ws(self):
@@ -57,7 +62,7 @@ class AnalyticalModel:
         return self.__t_formation_req / self.t_cycle()
 
     def __lambda(self):
-        return self.__num_ws / self.t_cycle()
+        return self.num_ws / self.t_cycle()
 
     def load_channel(self):
         return 2 * self.__lambda() * self.t_k

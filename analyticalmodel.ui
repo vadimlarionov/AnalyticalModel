@@ -98,7 +98,11 @@
       </widget>
      </item>
      <item row="4" column="0" colspan="5">
-      <widget class="QTableWidget" name="outputTableWidget"/>
+      <widget class="QTableWidget" name="outputTableWidget">
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+      </widget>
      </item>
      <item row="2" column="3">
       <spacer name="horizontalSpacer_2">

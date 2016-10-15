@@ -56,6 +56,7 @@ class Ui_AnalyticalModel(object):
         self.label.setObjectName("label")
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
         self.outputTableWidget = QtWidgets.QTableWidget(AnalyticalModel)
+        self.outputTableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.outputTableWidget.setObjectName("outputTableWidget")
         self.outputTableWidget.setColumnCount(0)
         self.outputTableWidget.setRowCount(0)

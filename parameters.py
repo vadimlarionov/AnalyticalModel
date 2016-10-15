@@ -69,9 +69,7 @@ class OutputParams(dict):
 
         self.__add_attribute('load_ws', 'Загрузка рабочей станции')
         self.__add_attribute('load_user', 'Загрузка ользователя')
-
-        # self.TODO = Param(count, 'Среднее количество работающих РС')
-
+        self.__add_attribute('avg_ws', 'Среднее количество работающих РС')
         self.__add_attribute('load_channel', 'Загрузка канала')
         self.__add_attribute('load_processor', 'Загрузка процессора')
         self.__add_attribute('load_disk', 'Загрузка i-го диска')

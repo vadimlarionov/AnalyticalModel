@@ -7,7 +7,9 @@ class Conf:
     max_variants = 7
     default_variants = 5
 
-    delta = 0.05
-    max_iterations = (1 << 1000)
-    k1 = 0.995
-    k2 = 100
+    delta = 0.0009
+    max_iterations = (1 << 100)
+    # k1 = 0.0995 / 0.09        # Это тот k1, при котором start_lambda совпадает с методичкой
+    k1 = 0.99995
+    k2 = 1000
+

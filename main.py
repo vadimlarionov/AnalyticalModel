@@ -4,7 +4,7 @@ import sys
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import *
 from ui_analyticalmodel import Ui_AnalyticalModel
-from parameters import InputParams, OutputParams, Param
+from parameters import InputParams, OutputParams
 from conf import Conf
 from analytical_model import AnalyticalModel
 from utils import Utils
@@ -39,22 +39,6 @@ class AnalyticalModelView(QDialog, Ui_AnalyticalModel):
                 self.inputTableWidget.setItem(row, column, QTableWidgetItem(str(value)))
                 column += 1
 
-    def clear_output_table(self):
-        self.outputTableWidget.clear()
-        self.outputTableWidget.setColumnCount(0)
-        self.outputTableWidget.setRowCount(0)
-
-    def create_output_table(self):
-        self.clear_output_table()
-        self.outputTableWidget.setColumnCount(self.number_variants + 1)
-        self.outputTableWidget.setHorizontalHeaderItem(0, QTableWidgetItem(' '))
-        for x in range(1, self.number_variants + 1):
-            self.outputTableWidget.setHorizontalHeaderItem(x, QTableWidgetItem('В' + str(x)))
-
-        for row, param in self.output_params.items():
-            self.outputTableWidget.insertRow(row)
-            self.outputTableWidget.setItem(row, 0, QTableWidgetItem(param.text))
-
     def add_variant(self):
         column = self.inputTableWidget.columnCount()
         if column <= Conf.max_variants:
@@ -77,6 +61,22 @@ class AnalyticalModelView(QDialog, Ui_AnalyticalModel):
         except AttributeError:
             pass
 
+    def delete_output_table(self):
+        self.outputTableWidget.clear()
+        self.outputTableWidget.setColumnCount(0)
+        self.outputTableWidget.setRowCount(0)
+
+    def create_output_table(self):
+        self.delete_output_table()
+        self.outputTableWidget.setColumnCount(self.number_variants + 1)
+        self.outputTableWidget.setHorizontalHeaderItem(0, QTableWidgetItem(' '))
+        for x in range(1, self.number_variants + 1):
+            self.outputTableWidget.setHorizontalHeaderItem(x, QTableWidgetItem('В' + str(x)))
+
+        for row, param in self.output_params.items():
+            self.outputTableWidget.insertRow(row)
+            self.outputTableWidget.setItem(row, 0, QTableWidgetItem(param.text))
+
     def create_model(self, variant):
         params = self.input_params
         num_ws = self.get_input_data(params.num_ws, variant)
@@ -86,7 +86,7 @@ class AnalyticalModelView(QDialog, Ui_AnalyticalModel):
         t_transfer_back = self.get_input_data(params.t_transfer_back, variant)
         num_processors = self.get_input_data(params.num_processors, variant)
         t_process_on_processor = self.get_input_data(params.t_process_on_processor, variant)
-        num_disks = self.get_input_data(params.t_process_on_processor, variant)
+        num_disks = self.get_input_data(params.num_disks, variant)
         t_process_on_disk = self.get_input_data(params.t_process_on_disk, variant)
         p_access_to_disk = self.get_input_data(params.p_access_to_disk, variant)
         return AnalyticalModel(num_ws, t_processing_ws, t_formation_req, t_transfer_forward, t_transfer_back,
@@ -108,11 +108,12 @@ class AnalyticalModelView(QDialog, Ui_AnalyticalModel):
             num_iterations = model.modeling()
             self.add_output_item(params.load_ws, variant, model.load_ws())
             self.add_output_item(params.load_user, variant, model.load_user())
+            self.add_output_item(params.avg_ws, variant, model.load_ws() * model.num_ws)
             self.add_output_item(params.load_channel, variant, model.load_channel())
             self.add_output_item(params.load_processor, variant, model.load_processor())
             self.add_output_item(params.load_disk, variant, model.load_disk())
             self.add_output_item(params.t_cycle, variant, model.t_cycle())
-            # self.add_output_item(params.t_reaction, variant, model.t_reaction())
+            self.add_output_item(params.t_reaction, variant, model.t_reaction())
             self.add_output_item(params.start_lambda, variant, model.start_lambda)
             self.add_output_item(params.end_lambda, variant, model.end_lambda)
             self.add_output_item(params.num_iterations, variant, num_iterations)
